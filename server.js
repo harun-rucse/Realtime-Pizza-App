@@ -3,6 +3,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const expressLayout = require('express-ejs-layouts');
+const session = require('express-session');
+const flash = require('express-flash');
+const MongoDbStore = require('connect-mongo')(session);
 const webRouter = require('./routes/web');
 
 const app = express();
@@ -15,6 +18,7 @@ app.set('views', path.join(__dirname, '/resources/views'));
 
 // Serve static files
 app.use(express.static('public'));
+app.use(express.json());
 
 // Database connection
 mongoose.connect(process.env.DATABASE_URL, {
@@ -32,6 +36,32 @@ connection
   .catch((err) => {
     console.log('DB connect fail!');
   });
+
+// Session store
+const mongoStore = new MongoDbStore({
+  mongooseConnection: connection,
+  collection: 'sessions'
+});
+
+// Session config
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    store: mongoStore,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }
+  })
+);
+
+app.use(flash());
+
+// Middleware
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+
+  next();
+});
 
 // Web Routes
 app.use('/', webRouter);

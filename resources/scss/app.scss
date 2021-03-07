@@ -1,4 +1,5 @@
 @import './variables';
+@import '~toastr/toastr.scss';
 
 body {
   font-family: 'Lato', sans-serif;
@@ -38,6 +39,9 @@ section.hero {
     background: $primary;
     color: $white;
   }
+  &:focus {
+    outline: none;
+  }
 }
 
 .btn-primary {
@@ -46,6 +50,9 @@ section.hero {
 
   &:hover {
     background: $primary-hover;
+  }
+  &:focus {
+    outline: none;
   }
 }
 

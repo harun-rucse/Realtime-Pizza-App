@@ -11,11 +11,16 @@
   "author": "Harun Or Rashid",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.1",
+    "connect-mongo": "3",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
-    "mongoose": "^5.11.19"
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.11.19",
+    "toastr": "^2.1.4"
   },
   "devDependencies": {
     "laravel-mix": "^6.0.13",
