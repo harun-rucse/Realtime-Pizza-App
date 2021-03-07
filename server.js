@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
+const webRouter = require('./routes/web');
 const app = express();
 
 // Set Template engine
@@ -11,21 +12,8 @@ app.set('views', path.join(__dirname, '/resources/views'));
 // Serve static files
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.render('home');
-});
-
-app.get('/cart', (req, res) => {
-  res.render('customers/cart');
-});
-
-app.get('/login', (req, res) => {
-  res.render('auth/login');
-});
-
-app.get('/register', (req, res) => {
-  res.render('auth/register');
-});
+// Web Routes
+app.use('/', webRouter);
 
 // Server create
 const PORT = process.env.PORT || 4000;
