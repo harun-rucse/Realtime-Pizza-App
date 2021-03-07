@@ -19,6 +19,14 @@ app.get('/cart', (req, res) => {
   res.render('customers/cart');
 });
 
+app.get('/login', (req, res) => {
+  res.render('auth/login');
+});
+
+app.get('/register', (req, res) => {
+  res.render('auth/register');
+});
+
 // Server create
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

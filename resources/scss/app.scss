@@ -56,3 +56,13 @@ section.cart {
     color: $primary;
   }
 }
+
+section.login {
+  background: $secondary;
+  min-height: calc(100vh - 86px);
+}
+
+section.register {
+  background: $secondary;
+  min-height: calc(100vh - 86px);
+}
