@@ -1,11 +1,13 @@
 import axios from 'axios';
 import toastr from 'toastr';
+import { initAdmin } from './admin';
 
 // Config totast
 toastr.options.timeOut = 100;
 
 let addToCart = document.querySelectorAll('.addToCart');
 const cartCounter = document.querySelector('#cartCounter');
+const alertMessage = document.querySelector('#success-alert');
 
 async function update(pizza) {
   try {
@@ -24,3 +26,13 @@ addToCart.forEach((btn) => {
     update(pizza);
   });
 });
+
+// Remove alert after 2s
+if (alertMessage) {
+  setTimeout(() => {
+    alertMessage.remove();
+  }, 2000);
+}
+
+// Admin sections
+initAdmin();

@@ -27,13 +27,17 @@
         >
       </div>
       <div class="mt-8">
-        <form action="">
+        <%if(user) {%>
+        <form action="/orders" method="POST">
           <input
+            value="<%= user.phone%>"
+            name="phone"
             class="border border-gray-400 p-2 w-1/2 mb-4"
             type="number"
             placeholder="Enter phone number"
           />
           <input
+            name="address"
             class="border border-gray-400 p-2 w-1/2"
             type="text"
             placeholder="Enter address"
@@ -47,11 +51,13 @@
             </button>
           </div>
         </form>
-        <!-- <a
+        <%} else {%>
+        <a
           href="/login"
           class="inline-block cursor-pointer px-6 py-2 text-xl text-white rounded-full btn-primary"
           >Login to continue</a
-        > -->
+        >
+        <%}%>
       </div>
     </div>
   </div>

@@ -2,6 +2,10 @@ const passport = require('passport');
 const User = require('../../models/userModel');
 
 function authController() {
+  const _redirectUrl = (role) => {
+    return role === 'admin' ? '/admin/orders' : '/customers/orders';
+  };
+
   return {
     login(req, res) {
       res.render('auth/login');
@@ -25,7 +29,7 @@ function authController() {
           }
         });
 
-        return res.redirect('/');
+        return res.redirect(_redirectUrl(req.user.role));
       })(req, res, next);
     },
     register(req, res) {
@@ -56,9 +60,16 @@ function authController() {
           return res.redirect('/register');
         }
 
-        await User.create({ name, email, phone, password });
+        const newUser = await User.create({ name, email, phone, password });
 
-        res.redirect('/');
+        req.logIn(newUser, (err) => {
+          if (err) {
+            req.flash('error', info.message);
+            return next(err);
+          }
+        });
+
+        return res.redirect(_redirectUrl(req.user.role));
       } catch (err) {
         req.flash('error', 'Something went wrong');
         return res.redirect('/register');

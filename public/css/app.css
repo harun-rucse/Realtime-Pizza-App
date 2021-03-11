@@ -290,3 +290,7 @@ section.register {
   background: #f8f8f8;
   min-height: calc(100vh - 86px);
 }
+
+a.link {
+  color: #fe5f1e;
+}

@@ -21,7 +21,7 @@
     <!-- navbar -->
     <nav class="container mx-auto flex items-center justify-between py-4">
       <div>
-        <img src="/img/logo.png" alt="Logo" />
+        <a href="/"> <img src="/img/logo.png" alt="Logo" /></a>
       </div>
       <div>
         <ul class="flex items-center">
@@ -42,7 +42,7 @@
           <li class="ml-6">
             <a href="/cart" class="inline-block px-4 py-2 rounded-full flex">
               <span id="cartCounter" class="text-white mr-2 font-bold"
-                ><%= session.cart ? session.cart.totalQty: '0'%></span
+                ><%= session.cart ? session.cart.totalQty: ''%></span
               >
               <img src="/img/cart.png" alt=""
             /></a>
