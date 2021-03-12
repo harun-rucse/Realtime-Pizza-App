@@ -33,9 +33,19 @@ function orderController() {
 
       res.header(
         'Cache-Control',
-        'no-cache, private, no-this.store, must-revalidate, max-stale=0, post-check=0, pre-check=0'
+        'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'
       );
       res.render('customers/orders', { orders, moment });
+    },
+    async show(req, res) {
+      const order = await Order.findById(req.params.id);
+
+      // Authorize user
+      if (req.user._id.toString() === order.customerId.toString()) {
+        return res.render('customers/singleOrder', { order });
+      } else {
+        return res.redirect('/');
+      }
     }
   };
 }

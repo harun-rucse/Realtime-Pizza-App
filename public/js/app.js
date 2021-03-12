@@ -1906,9 +1906,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
-/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./admin */ "./resources/js/admin.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin */ "./resources/js/admin.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1917,9 +1919,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
  // Config totast
 
-(toastr__WEBPACK_IMPORTED_MODULE_2___default().options.timeOut) = 100;
+(toastr__WEBPACK_IMPORTED_MODULE_3___default().options.timeOut) = 100;
 var addToCart = document.querySelectorAll('.addToCart');
 var cartCounter = document.querySelector('#cartCounter');
 var alertMessage = document.querySelector('#success-alert');
@@ -1944,14 +1947,14 @@ function _update() {
             _yield$axios$post = _context.sent;
             data = _yield$axios$post.data;
             cartCounter.innerText = data.totalQty;
-            toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Item add to cart!');
+            toastr__WEBPACK_IMPORTED_MODULE_3___default().success('Item add to cart!');
             _context.next = 12;
             break;
 
           case 9:
             _context.prev = 9;
             _context.t0 = _context["catch"](0);
-            toastr__WEBPACK_IMPORTED_MODULE_2___default().error('Something went wrong!');
+            toastr__WEBPACK_IMPORTED_MODULE_3___default().error('Something went wrong!');
 
           case 12:
           case "end":
@@ -1977,7 +1980,36 @@ if (alertMessage) {
 } // Admin sections
 
 
-(0,_admin__WEBPACK_IMPORTED_MODULE_3__.initAdmin)();
+(0,_admin__WEBPACK_IMPORTED_MODULE_4__.initAdmin)(); // Single Order tracking steps
+
+var statuses = document.querySelectorAll('.status_line');
+var hiddleInput = document.querySelector('#hiddenInput');
+var order = JSON.parse(hiddleInput ? hiddleInput.value : '');
+var time = document.createElement('small');
+
+function updateStatus(order) {
+  var stepComplete = true;
+  statuses.forEach(function (status) {
+    var statusProp = status.dataset.status;
+    console.log(statusProp, order.status);
+
+    if (stepComplete) {
+      status.classList.add('step-completed');
+    }
+
+    if (statusProp === order.status) {
+      stepComplete = false;
+      time.innerText = moment__WEBPACK_IMPORTED_MODULE_2___default()(order.updatedAt).format('hh:mm A');
+      status.appendChild(time);
+
+      if (status.nextElementSibling) {
+        status.nextElementSibling.classList.add('current');
+      }
+    }
+  });
+}
+
+updateStatus(order);
 
 /***/ }),
 

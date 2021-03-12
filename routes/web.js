@@ -23,6 +23,7 @@ router.post('/update-cart', cartController().update);
 
 router.post('/orders', auth, orderController().store);
 router.get('/customers/orders', auth, orderController().index);
+router.get('/customer/orders/:id', auth, orderController().show);
 
 // Admin routes
 router.get('/admin/orders', auth, admin, adminOrderController().index);
