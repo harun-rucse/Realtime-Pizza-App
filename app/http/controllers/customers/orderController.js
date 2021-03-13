@@ -12,12 +12,18 @@ function orderController() {
           return res.redirect('/cart');
         }
 
-        await Order.create({
+        const order = await Order.create({
           customerId: req.user._id,
           items: req.session.cart.items,
           phone,
           address
         });
+
+        const placedOrder = await Order.populate(order, { path: 'customerId' });
+
+        // Event emitter
+        const eventEmitter = req.app.get('eventEmitter');
+        eventEmitter.emit('orderPlaced', placedOrder);
 
         req.flash('success', 'Order placed successfully');
         delete req.session.cart;

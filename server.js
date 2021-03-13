@@ -1,4 +1,5 @@
 const path = require('path');
+const EventEmitter = require('events');
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -39,6 +40,10 @@ connection
     console.log('DB connect fail!');
   });
 
+// Event emitter
+const eventEmitter = new EventEmitter();
+app.set('eventEmitter', eventEmitter);
+
 // Session store
 const mongoStore = new MongoDbStore({
   mongooseConnection: connection,
@@ -76,6 +81,23 @@ app.use('/', webRouter);
 
 // Server create
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
+});
+
+// Socket.io connection
+const io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+  socket.on('join', (roomName) => {
+    socket.join(roomName);
+  });
+});
+
+eventEmitter.on('orderUpdated', (data) => {
+  io.to(`order_${data.id}`).emit('orderUpdated', data);
+});
+
+eventEmitter.on('orderPlaced', (data) => {
+  io.to('adminRoom').emit('orderPlaced', data);
 });

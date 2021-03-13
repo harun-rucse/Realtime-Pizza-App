@@ -7,6 +7,10 @@ function statusController() {
         const { orderId, status } = req.body;
         await Order.findByIdAndUpdate(orderId, { status }, { new: true });
 
+        // Event emitter
+        const eventEmitter = req.app.get('eventEmitter');
+        eventEmitter.emit('orderUpdated', { id: orderId, status });
+
         return res.redirect('/admin/orders');
       } catch (err) {
         return res.redirect('/admin/orders');

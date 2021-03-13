@@ -1,7 +1,8 @@
 import axios from 'axios';
 import moment from 'moment';
+import toastr from 'toastr';
 
-export function initAdmin() {
+export function initAdmin(socket) {
   const orderTableBody = document.querySelector('#orderTableBody');
   let orders = [];
   let markup;
@@ -96,4 +97,12 @@ export function initAdmin() {
       })
       .join('');
   }
+
+  socket.on('orderPlaced', (newOrder) => {
+    orders.unshift(newOrder);
+    orderTableBody.innerHTML = '';
+
+    orderTableBody.innerHTML = generateMarkup(orders);
+    toastr.success('Order status updated!');
+  });
 }

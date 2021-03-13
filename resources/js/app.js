@@ -3,6 +3,9 @@ import moment from 'moment';
 import toastr from 'toastr';
 import { initAdmin } from './admin';
 
+// Socket connection
+const socket = io();
+
 // Config totast
 toastr.options.timeOut = 100;
 
@@ -36,20 +39,25 @@ if (alertMessage) {
 }
 
 // Admin sections
-initAdmin();
+initAdmin(socket);
 
 // Single Order tracking steps
 const statuses = document.querySelectorAll('.status_line');
 const hiddleInput = document.querySelector('#hiddenInput');
-const order = JSON.parse(hiddleInput ? hiddleInput.value : '');
+const order = JSON.parse(hiddleInput ? hiddleInput.value : null);
 let time = document.createElement('small');
 
 function updateStatus(order) {
   let stepComplete = true;
 
+  // Remove class name
+  statuses.forEach((status) => {
+    status.classList.remove('step-completed');
+    status.classList.remove('current');
+  });
+
   statuses.forEach((status) => {
     let statusProp = status.dataset.status;
-    console.log(statusProp, order.status);
 
     if (stepComplete) {
       status.classList.add('step-completed');
@@ -68,3 +76,22 @@ function updateStatus(order) {
 }
 
 updateStatus(order);
+
+// Join;
+if (order) {
+  socket.emit('join', `order_${order._id}`);
+}
+
+const adminAreaPath = window.location.pathname;
+if (adminAreaPath.includes('admin')) {
+  socket.emit('join', 'adminRoom');
+}
+
+socket.on('orderUpdated', (data) => {
+  const updatedOrder = { ...order };
+  updatedOrder.status = data.status;
+  updatedOrder.updatedAt = moment().format();
+
+  toastr.success('Order status updated!');
+  updateStatus(updatedOrder);
+});
