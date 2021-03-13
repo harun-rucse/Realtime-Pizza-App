@@ -19,7 +19,7 @@ function authController() {
 
         if (!user) {
           req.flash('error', info.message);
-          res.redirect('/login');
+          return res.redirect('/login');
         }
 
         req.logIn(user, (err) => {
