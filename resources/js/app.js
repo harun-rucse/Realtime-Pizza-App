@@ -38,9 +38,6 @@ if (alertMessage) {
   }, 2000);
 }
 
-// Admin sections
-initAdmin(socket);
-
 // Single Order tracking steps
 const statuses = document.querySelectorAll('.status_line');
 const hiddleInput = document.querySelector('#hiddenInput');
@@ -84,6 +81,9 @@ if (order) {
 
 const adminAreaPath = window.location.pathname;
 if (adminAreaPath.includes('admin')) {
+  // Admin sections
+  initAdmin(socket);
+
   socket.emit('join', 'adminRoom');
 }
 

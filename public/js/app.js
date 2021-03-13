@@ -1995,10 +1995,8 @@ if (alertMessage) {
   setTimeout(function () {
     alertMessage.remove();
   }, 2000);
-} // Admin sections
+} // Single Order tracking steps
 
-
-(0,_admin__WEBPACK_IMPORTED_MODULE_4__.initAdmin)(socket); // Single Order tracking steps
 
 var statuses = document.querySelectorAll('.status_line');
 var hiddleInput = document.querySelector('#hiddenInput');
@@ -2040,6 +2038,8 @@ if (order) {
 var adminAreaPath = window.location.pathname;
 
 if (adminAreaPath.includes('admin')) {
+  // Admin sections
+  (0,_admin__WEBPACK_IMPORTED_MODULE_4__.initAdmin)(socket);
   socket.emit('join', 'adminRoom');
 }
 

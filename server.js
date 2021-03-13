@@ -78,6 +78,9 @@ app.use((req, res, next) => {
 
 // Web Routes
 app.use('/', webRouter);
+app.all('*', (req, res) => {
+  res.render('notFound');
+});
 
 // Server create
 const PORT = process.env.PORT || 4000;

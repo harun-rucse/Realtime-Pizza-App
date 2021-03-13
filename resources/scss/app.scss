@@ -184,3 +184,19 @@ section.status {
   font-size: 14px;
   margin-top: 8px;
 }
+
+.not-found {
+  width: 100%;
+  height: calc(100vh - 86px);
+}
+
+@media (max-width: 800px) {
+  .container {
+    max-width: 90%;
+  }
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
